@@ -1,4 +1,5 @@
-# Badger - Docker Container Management for Tests
+# Badger 🦡 
+Docker Container Management for Tests
 
 ### Overview
 
