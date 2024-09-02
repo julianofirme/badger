@@ -2,13 +2,53 @@
 
 ### Overview
 
-Badger is a tool designed for managing Docker containers. The project is currently under development, and the goal is to publish it on npm, allowing users to incorporate container management functionalities directly into their applications.
+Badger is a tool designed for managing Docker containers for tests. The project is currently under development, and the goal is to publish it on npm, allowing users to incorporate container management functionalities directly into their applications.
 
-### Current Status
+## Usage in Code (Future)
 
-Badger is in active development. Users can currently test the application using the CLI. The final version will be published on npm, where users will be able to install it and use it programmatically in their projects.
+Once Badger is published, you will be able to use its functions in your codebase. Here’s an example of how to integrate Badger into your application:
 
-## Testing Badger CLI
+```javascript
+import { createContainer, stopContainer, removeContainer } from 'badger';
+
+let containerId: string | null = null;
+
+beforeAll(async () => {
+  try {
+    const container = await createContainer({
+      container: 'postgres',
+      customEnvs: {
+        POSTGRES_USER: 'test_user',
+        POSTGRES_PASSWORD: 'test_password',
+        POSTGRES_DB: 'test_db'
+      },
+      port: '5432'
+    });
+
+    containerId = container.id;
+    console.log(`PostgreSQL container started with ID: ${containerId}`);
+  } catch (error) {
+    console.error('Error creating container:', error);
+    throw error;
+  }
+});
+
+afterAll(async () => {
+  if (containerId) {
+    try {
+      await stopContainer(containerId);
+      console.log(`PostgreSQL container ${containerId} stopped.`);
+
+      await removeContainer(containerId);
+      console.log(`PostgreSQL container ${containerId} removed.`);
+    } catch (error) {
+      console.error('Error managing container during cleanup:', error);
+    }
+  }
+});
+```
+
+## Testing Badger using CLI 
 
 ### Prerequisites
 
@@ -51,37 +91,5 @@ Remove a Container
 bun index.ts remove <containerId>
 ```
 
-## Usage in Code (Future)
-
-Once Badger is published, you will be able to use its functions in your codebase. Here’s an example of how to integrate Badger into your application:
-
-```javascript
-import {
-  createContainer,
-  stopContainer,
-  removeContainer,
-} from "badger";
-
-async function manageContainers() {
-  try {
-    const container = await createContainer({
-      container: "postgres",
-      customEnvs: { POSTGRES_USER: "test", POSTGRES_PASSWORD: "test", POSTGRES_DB: "mydb" },
-      port: "5432"
-    });
-    console.log(`Container started with ID: ${container.id}`);
-
-    await stopContainer(container.id);
-    console.log(`Container ${container.id} stopped.`);
-
-    await removeContainer(container.id);
-    console.log(`Container ${container.id} removed.`);
-  } catch (error) {
-    console.error("Error managing containers:", error);
-  }
-}
-
-manageContainers();
-```
 ## Development and Contribution
 The project is currently under development, and contributions are welcome. If you have suggestions, improvements, or would like to help with development, please reach out or open a pull request.
