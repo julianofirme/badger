@@ -36,25 +36,19 @@ You can test the CLI commands using the following examples:
 Create a Container
 
 ```bash
-bun src/cli.ts create postgres --port 5432 --env POSTGRES_USER=test --env POSTGRES_PASSWORD=test --env POSTGRES_DB=mydb
+bun index.ts create postgres --port 5432 --env POSTGRES_USER=test --env POSTGRES_PASSWORD=test --env POSTGRES_DB=mydb
 ```
 
 Stop a Container
 
 ```bash
-bun src/cli.ts stop <containerId>
-```
-
-Restart a Container
-
-```bash
-bun src/cli.ts restart <containerId>
+bun index.ts stop <containerId>
 ```
 
 Remove a Container
 
 ```bash
-bun src/cli.ts remove <containerId>
+bun index.ts remove <containerId>
 ```
 
 ## Usage in Code (Future)
