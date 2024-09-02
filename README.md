@@ -2,7 +2,7 @@
 
 ### Overview
 
-Badger is a command-line interface (CLI) tool designed for managing Docker containers. The project is currently under development, and the goal is to publish it on npm, allowing users to incorporate container management functionalities directly into their applications.
+Badger is a tool designed for managing Docker containers. The project is currently under development, and the goal is to publish it on npm, allowing users to incorporate container management functionalities directly into their applications.
 
 ### Current Status
 
