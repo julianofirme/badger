@@ -1,15 +1,48 @@
 {
   "name": "badger",
-  "module": "index.ts",
-  "type": "module",
+  "version": "0.0.17",
+  "author": "Juliano Firme",
+  "license": "MIT",
+  "description": "Docker container management for tests.",
+  "homepage": "https://github.com/julianofirme/badger#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/julianofirme/badger"
+  },
+  "bugs": {
+    "url": "https://github.com/julianofirme/badger/issues"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
   "devDependencies": {
-    "@types/bun": "latest",
-    "@types/dockerode": "^3.3.31"
+    "@types/dockerode": "^3.3.31",
+    "@types/node": "^22.5.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "dockerode": "^4.0.2"
+    "dockerode": "^4.0.2",
+    "rimraf": "^6.0.1"
+  },
+  "keywords": [
+    "docker",
+    "tests",
+    "tests container",
+    "test environment"
+  ],
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }
