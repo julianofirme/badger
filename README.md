@@ -5,7 +5,7 @@ Docker Container Management for Tests
 
 Badger is a tool designed for managing Docker containers for tests. The project is currently under development, and the goal is to publish it on npm, allowing users to incorporate container management functionalities directly into their applications.
 
-## Usage in Code (Future)
+## Usage in Code
 
 Once Badger is published, you will be able to use its functions in your codebase. Here’s an example of how to integrate Badger into your application:
 
@@ -17,7 +17,7 @@ let containerId: string | null = null;
 beforeAll(async () => {
   try {
     const container = await createContainer({
-      container: 'postgres',
+      image: 'postgres',
       customEnvs: {
         POSTGRES_USER: 'test_user',
         POSTGRES_PASSWORD: 'test_password',
@@ -47,49 +47,6 @@ afterAll(async () => {
     }
   }
 });
-```
-
-## Testing Badger using CLI 
-
-### Prerequisites
-
-Ensure you have [Bun](https://bun.sh/) installed on your system. This project uses Bun for managing dependencies and running scripts.
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/julianofirme/badger
-cd badger
-```
-
-### Install Dependencies
-
-Run the following command to install all necessary packages:
-
-```bash
-bun install
-```
-
-### Run the CLI
-
-You can test the CLI commands using the following examples:
-
-Create a Container
-
-```bash
-bun index.ts create postgres --port 5432 --env POSTGRES_USER=test --env POSTGRES_PASSWORD=test --env POSTGRES_DB=mydb
-```
-
-Stop a Container
-
-```bash
-bun index.ts stop <containerId>
-```
-
-Remove a Container
-
-```bash
-bun index.ts remove <containerId>
 ```
 
 ## Development and Contribution
