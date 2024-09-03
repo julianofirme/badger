@@ -1,4 +1,4 @@
-import type { ContainerConfig, ContainerOptions, GetContainerConfigOptions } from '../types';
+import { ContainerConfig, ContainerOptions, GetContainerConfigOptions } from "../types";
 
 const containerConfigs: Record<string, ContainerConfig> = {
   postgres: {
@@ -40,11 +40,11 @@ const containerConfigs: Record<string, ContainerConfig> = {
   }
 };
 
-export function getContainerConfig({ type, envVars, port }: GetContainerConfigOptions): ContainerOptions {
-  const config = containerConfigs[type];
+export function getContainerConfig({ image, envVars, port }: GetContainerConfigOptions): ContainerOptions {
+  const config = containerConfigs[image];
 
   if (!config) {
-    throw new Error(`Unsupported container type: ${type}`);
+    throw new Error(`Unsupported container image: ${image}`);
   }
 
   const baseConfig: ContainerOptions = {

@@ -1,4 +1,6 @@
-export interface ContainerConfig {
+export type ContainerImage = "postgres" | "mysql" | "redis" | "mongo";
+
+export type ContainerConfig = {
   Image: string;
   Ports: {
     [key: string]: {};
@@ -8,13 +10,15 @@ export interface ContainerConfig {
   };
 }
 
-export interface GetContainerConfigOptions {
-  type: string;
-  envVars: any;
+export type GetContainerConfigOptions = {
+  image: ContainerImage;
+  envVars: {
+    [key: string]: string;
+  };
   port?: string;
 }
 
-export interface ContainerOptions {
+export type ContainerOptions = {
   ExposedPorts: {
     [key: string]: {};
   };
