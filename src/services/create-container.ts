@@ -1,11 +1,14 @@
 import Docker from 'dockerode';
-import type { ContainerOptions } from '../types';
+import { getContainerConfig } from '../utils/config';
+import { GetContainerConfigOptions } from '../types';
 
 const docker = new Docker();
 
-export async function createContainer(options: ContainerOptions) {
+export async function createContainer({ image, envVars, port }: GetContainerConfigOptions) {
+  const containerOptions = getContainerConfig({ image, envVars, port });
+
   try {
-    const container = await docker.createContainer(options);
+    const container = await docker.createContainer(containerOptions);
     return container;
   } catch (error) {
     console.error('Error creating container:', error);
