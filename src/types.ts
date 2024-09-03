@@ -18,17 +18,19 @@ export type GetContainerConfigOptions = {
   port?: string;
 }
 
-export type ContainerOptions = {
-  ExposedPorts: {
-    [key: string]: {};
-  };
-  HostConfig: {
-    PortBindings: {
-      [key: string]: {
-        HostPort: string;
-      }[];
-    };
-  };
-  Image: string;
-  Env: string[];
+export type PostgresOptions = {
+  user?: string;
+  password?: string;
+  database?: string;
+  port?: string;
+  additionalEnv?: Record<string, string>;
+}
+
+export type MySQLOptions = {
+  rootPassword?: string;
+  database?: string;
+  user?: string;
+  password?: string;
+  port?: string;
+  additionalEnv?: Record<string, string>;
 }
