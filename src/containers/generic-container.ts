@@ -1,4 +1,4 @@
-import Docker from 'dockerode';
+import Docker, { Container } from 'dockerode';
 import { ContainerCreateOptions } from 'dockerode';
 
 const docker = new Docker();
@@ -31,7 +31,7 @@ export async function createGenericContainer(config: CreateGenericContainerConfi
   const port = config.hostPort || config.port || '80';
 
   return {
-    getConnectionString: () => `${host}:${port}`,
+    getContainerId: (): string => container.id,
     getPort: () => port,
     getEnv: (key: string) => config.envs?.[key] || '',
   };

@@ -40,5 +40,6 @@ export async function createMySQLContainer(config: {
     getUser: () => user,
     getPassword: () => password,
     getDb: () => db,
+    getContainerId: (): string => container.id,
   };
 }

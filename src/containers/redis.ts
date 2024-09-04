@@ -32,5 +32,6 @@ export async function createRedisContainer(config: {
         : `redis://${host}:${port}`,
     getPort: () => port,
     getPassword: () => password,
+    getContainerId: (): string => container.id,
   };
 }

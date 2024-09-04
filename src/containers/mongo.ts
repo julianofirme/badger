@@ -39,5 +39,6 @@ export async function createMongoContainer(config: {
     getUser: () => user,
     getPassword: () => password,
     getDb: () => db,
+    getContainerId: (): string => container.id,
   };
 }
