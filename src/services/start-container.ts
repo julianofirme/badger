@@ -1,7 +1,10 @@
-import type { Container } from "dockerode";
+import Docker from "dockerode";
 
-export async function startContainer(container: Container) {
+const docker = new Docker()
+
+export async function startContainer(containerId: string) {
   try {
+    const container = docker.getContainer(containerId)
     await container.start();
   } catch (error) {
     console.error('Error starting container:', error);
