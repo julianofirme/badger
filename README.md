@@ -11,7 +11,7 @@ Badger is a tool designed for managing Docker containers for tests. The project 
 Once Badger is published, you will be able to use its functions in your codebase. Here’s an example of how to integrate Badger into your tests:
 
 ```javascript
-import {createContainer, stopContainer, removeContainer} from "badger";
+import {createPostgresContainer, stopContainer, removeContainer} from "badger";
 
 let containerId: string | null = null;
 
