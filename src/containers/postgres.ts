@@ -1,34 +1,43 @@
-import { ContainerCreateOptions } from "dockerode";
-import { ContainerConfig, PostgresOptions } from "../types";
+import Docker from 'dockerode';
+import { ContainerCreateOptions } from 'dockerode';
 
-export function createPostgresConfig(options: PostgresOptions): ContainerCreateOptions {
-  const config: ContainerConfig = {
+const docker = new Docker();
+
+export async function createPostgresContainer(config: {
+  host?: string;
+  port?: string;
+  user?: string;
+  password?: string;
+  db?: string;
+}) {
+  const containerOptions: ContainerCreateOptions = {
     Image: 'bitnami/postgresql:latest',
-    Ports: {
-      '5432/tcp': {}
-    },
-    EnvDefaults: {
-      POSTGRES_USER: 'postgres',
-      POSTGRES_PASSWORD: 'password',
-      POSTGRES_DB: 'testdb'
+    Env: [
+      `POSTGRES_USER=${config.user || 'postgres'}`,
+      `POSTGRES_PASSWORD=${config.password || 'password'}`,
+      `POSTGRES_DB=${config.db || 'testdb'}`
+    ],
+    HostConfig: {
+      PortBindings: {
+        '5432/tcp': [{ HostPort: config.port || '5432' }]
+      }
     }
   };
 
-  const env = {
-    POSTGRES_USER: options.user || config.EnvDefaults.POSTGRES_USER,
-    POSTGRES_PASSWORD: options.password || config.EnvDefaults.POSTGRES_PASSWORD,
-    POSTGRES_DB: options.database || config.EnvDefaults.POSTGRES_DB,
-    ...options.additionalEnv
-  };
+  const container = await docker.createContainer(containerOptions);
+  await container.start();
+
+  const host = config.host || 'localhost';
+  const port = config.port || '5432';
+  const user = config.user || 'postgres';
+  const password = config.password || 'password';
+  const db = config.db || 'testdb';
 
   return {
-    Image: config.Image,
-    ExposedPorts: config.Ports,
-    HostConfig: {
-      PortBindings: {
-        '5432/tcp': [{ HostPort: options.port || '5432' }]
-      }
-    },
-    Env: Object.entries(env).map(([key, value]) => `${key}=${value}`)
+    getConnectionString: () => `postgresql://${user}:${password}@${host}:${port}/${db}`,
+    getPort: () => port,
+    getUser: () => user,
+    getPassword: () => password,
+    getDb: () => db,
   };
 }

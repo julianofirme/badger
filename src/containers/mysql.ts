@@ -1,36 +1,44 @@
-import { ContainerCreateOptions } from "dockerode";
-import { ContainerConfig, MySQLOptions } from "../types";
+import Docker from 'dockerode';
+import { ContainerCreateOptions } from 'dockerode';
 
-export function createMySQLConfig(options: MySQLOptions): ContainerCreateOptions {
-  const config: ContainerConfig = {
+const docker = new Docker();
+
+export async function createMySQLContainer(config: {
+  host?: string;
+  port?: string;
+  user?: string;
+  password?: string;
+  db?: string;
+}) {
+  const containerOptions: ContainerCreateOptions = {
     Image: 'mysql:latest',
-    Ports: {
-      '3306/tcp': {}
-    },
-    EnvDefaults: {
-      MYSQL_ROOT_PASSWORD: 'rootpassword',
-      MYSQL_DATABASE: 'testdb',
-      MYSQL_USER: 'user',
-      MYSQL_PASSWORD: 'password'
+    Env: [
+      `MYSQL_ROOT_PASSWORD=${config.password || 'rootpassword'}`,
+      `MYSQL_DATABASE=${config.db || 'testdb'}`,
+      `MYSQL_USER=${config.user || 'user'}`,
+      `MYSQL_PASSWORD=${config.password || 'password'}`
+    ],
+    HostConfig: {
+      PortBindings: {
+        '3306/tcp': [{ HostPort: config.port || '3306' }]
+      }
     }
   };
 
-  const env = {
-    MYSQL_ROOT_PASSWORD: options.rootPassword || config.EnvDefaults.MYSQL_ROOT_PASSWORD,
-    MYSQL_DATABASE: options.database || config.EnvDefaults.MYSQL_DATABASE,
-    MYSQL_USER: options.user || config.EnvDefaults.MYSQL_USER,
-    MYSQL_PASSWORD: options.password || config.EnvDefaults.MYSQL_PASSWORD,
-    ...options.additionalEnv
-  };
+  const container = await docker.createContainer(containerOptions);
+  await container.start();
+
+  const host = config.host || 'localhost';
+  const port = config.port || '3306';
+  const user = config.user || 'user';
+  const password = config.password || 'password';
+  const db = config.db || 'testdb';
 
   return {
-    Image: config.Image,
-    ExposedPorts: config.Ports,
-    HostConfig: {
-      PortBindings: {
-        '3306/tcp': [{ HostPort: options.port || '3306' }]
-      }
-    },
-    Env: Object.entries(env).map(([key, value]) => `${key}=${value}`)
+    getConnectionString: () => `mysql://${user}:${password}@${host}:${port}/${db}`,
+    getPort: () => port,
+    getUser: () => user,
+    getPassword: () => password,
+    getDb: () => db,
   };
 }
