@@ -1,5 +1,4 @@
-import Docker from 'dockerode';
-import { ContainerCreateOptions } from 'dockerode';
+import Docker, { ContainerCreateOptions } from 'dockerode';
 
 const docker = new Docker();
 
