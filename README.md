@@ -1,4 +1,5 @@
-# Badger 🦡 
+# Badger 🦡
+
 Docker Container Management for Tests
 
 ### Overview
@@ -7,29 +8,28 @@ Badger is a tool designed for managing Docker containers for tests. The project 
 
 ## Usage in Code
 
-Once Badger is published, you will be able to use its functions in your codebase. Here’s an example of how to integrate Badger into your application:
+Once Badger is published, you will be able to use its functions in your codebase. Here’s an example of how to integrate Badger into your tests:
 
 ```javascript
-import { createContainer, stopContainer, removeContainer } from 'badger';
+import {createContainer, stopContainer, removeContainer} from "badger";
 
 let containerId: string | null = null;
 
 beforeAll(async () => {
   try {
-    const container = await createContainer({
-      image: 'postgres',
-      customEnvs: {
-        POSTGRES_USER: 'test_user',
-        POSTGRES_PASSWORD: 'test_password',
-        POSTGRES_DB: 'test_db'
-      },
-      port: '5432'
-    });
+    const postgresContainer = await createPostgresContainer();
 
-    containerId = container.id;
+    const connectionString = postgresContainer.getConnectionString();
+    const user = postgresContainer.getUser();
+    const password = postgresContainer.getPassword();
+    const db = postgresContainer.getDb();
+    const port = postgresContainer.getPort();
+
+    containerId = postgresContainer.getContainerId();
+
     console.log(`PostgreSQL container started with ID: ${containerId}`);
   } catch (error) {
-    console.error('Error creating container:', error);
+    console.error("Error creating container:", error);
     throw error;
   }
 });
@@ -43,11 +43,12 @@ afterAll(async () => {
       await removeContainer(containerId);
       console.log(`PostgreSQL container ${containerId} removed.`);
     } catch (error) {
-      console.error('Error managing container during cleanup:', error);
+      console.error("Error managing container during cleanup:", error);
     }
   }
 });
 ```
 
 ## Development and Contribution
+
 The project is currently under development, and contributions are welcome. If you have suggestions, improvements, or would like to help with development, please reach out or open a pull request.
