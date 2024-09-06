@@ -53,7 +53,6 @@ function debug(message: string) {
   }
 }
 
-// Objeto logger exportado
 const logger = {
   setLogLevel,
   debug,
