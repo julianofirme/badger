@@ -43,6 +43,6 @@ export async function createPostgresContainer(config: {
     getDb: () => db,
     getContainerId: (): string => container.id,
     start: async () => startContainer(container.id),
-    startWithDelay: async () => startContainerWithDelayStrategy(container.id)
+    startWithDelay: async (DELAY: number = 4000) => startContainerWithDelayStrategy(container.id, DELAY)
   };
 }
