@@ -7,6 +7,7 @@ export async function removeContainer(containerId: string) {
   try {
     const container = docker.getContainer(containerId)
     await container.remove();
+    logger.info('Container removed')
   } catch (error) {
     logger.error(`Error inspecting container: ${error instanceof Error ? error.message : 'Unknown error'}`);
     throw error;
