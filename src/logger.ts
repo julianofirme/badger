@@ -31,25 +31,25 @@ function colorize(message: string, colorCode: string): string {
 
 function info(message: string) {
   if (shouldLog('info')) {
-    console.log(colorize(`[INFO] [${getCurrentTime()}]: ${message}`, '\x1b[34m'));
+    console.log(colorize(`[INFO] [${getCurrentTime()}]:`, '\x1b[36m'), message);
   }
 }
 
 function warn(message: string) {
   if (shouldLog('warn')) {
-    console.warn(colorize(`[WARN] [${getCurrentTime()}]: ${message}`, '\x1b[33m'));
+    console.warn(colorize(`[WARN] [${getCurrentTime()}]:`, '\x1b[33m'), message);
   }
 }
 
 function error(message: string) {
   if (shouldLog('error')) {
-    console.error(colorize(`[ERROR] [${getCurrentTime()}]: ${message}`, '\x1b[31m'));
+    console.error(colorize(`[ERROR] [${getCurrentTime()}]:`, '\x1b[31m'), message);
   }
 }
 
 function debug(message: string) {
   if (shouldLog('debug')) {
-    console.debug(colorize(`[DEBUG] [${getCurrentTime()}]: ${message}`, '\x1b[32m'));
+    console.debug(colorize(`[DEBUG] [${getCurrentTime()}]:`, '\x1b[32m'), message);
   }
 }
 
