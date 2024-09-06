@@ -1,6 +1,6 @@
 // Service
 export { startContainer } from './services/start-container'
-export { stopContainer } from './services/stop-container'
+export { killContainer } from './services/kill-container'
 export { removeContainer } from './services/remove-container'
 
 // Containers
