@@ -1,6 +1,7 @@
 import Docker, { ContainerCreateOptions } from 'dockerode';
 import { startContainer } from '../services/start-container';
 import { startContainerWithDelayStrategy } from '../services/start-container-with-delay';
+import logger from '../logger';
 
 const docker = new Docker();
 
@@ -26,7 +27,7 @@ export async function createPostgresContainer(config: {
   };
 
   const container = await docker.createContainer(containerOptions);
-  console.log("🚀 Container created, use container.start() or container.startWithDelay() now!")
+  logger.info("Container created, use container.start() or container.startWithDelay() now!")
 
   const host = config.host || 'localhost';
   const port = config.port || '5432';
